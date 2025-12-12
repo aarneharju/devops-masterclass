@@ -1,0 +1,134 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "4"
+    kubernetes.io/change-cause: kubectl set image deployment/hello-world-rest-api
+      hello-world-rest-api=in28min/hello-world-rest-api:0.0.3.RELEASE --record=true
+  creationTimestamp: "2025-12-09T16:21:21Z"
+  generation: 8
+  labels:
+    app: hello-world-rest-api
+    app.kubernetes.io/instance: hello-world-rest-api
+    app.kubernetes.io/managed-by: edka
+    app.kubernetes.io/name: hello-world-rest-api
+    app.kubernetes.io/version: 0.0.1.RELEASE
+    edka.io/account-id: 25c48a5f-bf72-4894-b85d-160843bae941
+    edka.io/cluster-id: 66fb93d5-ddd4-4250-bb9b-8e910acd3a90
+    edka.io/deployment-id: 66e2f31e-6930-488e-8529-38a8335a8614
+  name: hello-world-rest-api
+  namespace: default
+  resourceVersion: "509076"
+  uid: 3e84f88d-cc7c-4bcb-abd9-190668086502
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 3
+  minReadySeconds: 45
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: hello-world-rest-api
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: hello-world-rest-api
+        app.kubernetes.io/instance: hello-world-rest-api
+        app.kubernetes.io/managed-by: edka
+        app.kubernetes.io/name: hello-world-rest-api
+    spec:
+      nodeSelector:
+        cfke.io/provider: hetzner
+        topology.kubernetes.io/region: hel1
+      containers:
+      - image: in28min/hello-world-rest-api:0.0.3.RELEASE
+        imagePullPolicy: IfNotPresent
+        name: hello-world-rest-api
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 3
+  conditions:
+  - lastTransitionTime: "2025-12-10T12:12:49Z"
+    lastUpdateTime: "2025-12-10T12:12:49Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2025-12-09T16:21:21Z"
+    lastUpdateTime: "2025-12-11T10:19:00Z"
+    message: ReplicaSet "hello-world-rest-api-5dcc8cb6d9" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 8
+  readyReplicas: 3
+  replicas: 3
+  updatedReplicas: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    load-balancer.hetzner.cloud/location: hel1
+  creationTimestamp: "2025-12-09T16:21:21Z"
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  labels:
+    app: hello-world-rest-api
+    app.kubernetes.io/instance: hello-world-rest-api
+    app.kubernetes.io/managed-by: edka
+    app.kubernetes.io/name: hello-world-rest-api
+    app.kubernetes.io/version: 0.0.1.RELEASE
+    edka.io/account-id: 25c48a5f-bf72-4894-b85d-160843bae941
+    edka.io/cluster-id: 66fb93d5-ddd4-4250-bb9b-8e910acd3a90
+    edka.io/deployment-id: 66e2f31e-6930-488e-8529-38a8335a8614
+  name: hello-world-rest-api
+  namespace: default
+  resourceVersion: "56006"
+  uid: df09b3e4-1494-4600-b8fc-848c2e105f4e
+spec:
+  allocateLoadBalancerNodePorts: true
+  externalTrafficPolicy: Local
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30103
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: hello-world-rest-api
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 95.217.170.78
+      ipMode: VIP
+    - ip: 2a01:4f9:c01e:40d::1
+      ipMode: VIP
+    - ip: 10.0.0.6
+      ipMode: VIP
