@@ -1,0 +1,57 @@
+# resource "aws_security_group" "http_server_security_group" {
+#   name   = "http_server_security_group"
+#   vpc_id = "vpc-0c816815eb9839c8a" # aws_vpc.main.id if you've created it like this: data "aws_vpc" "main" { id = "vpc-1234567890abcdefg" }
+
+#   # Old way
+#   # ingress {
+#   #   from_port   = 80
+#   #   to_port     = 80
+#   #   protocol    = "tcp"
+#   #   cidr_blocks = ["0.0.0.0/0"]
+#   # }
+
+#   # ingress {
+#   #   from_port   = 22
+#   #   to_port     = 22
+#   #   protocol    = "tcp"
+#   #   cidr_blocks = ["0.0.0.0/0"]
+#   # }
+
+#   # egress {
+#   #   from_port   = 0
+#   #   to_port     = 0
+#   #   protocol    = -1
+#   #   cidr_blocks = ["0.0.0.0/0"]
+#   # }
+
+#   tags = {
+#     name = "http_server_security_group"
+#   }
+# }
+
+# resource "aws_vpc_security_group_ingress_rule" "http_server_security_group_ingress_rule_80" {
+#   security_group_id = aws_security_group.http_server_security_group.id
+
+#   cidr_ipv4   = "0.0.0.0/0"
+#   from_port   = 80
+#   ip_protocol = "tcp"
+#   to_port     = 80
+# }
+
+# resource "aws_vpc_security_group_ingress_rule" "http_server_security_group_ingress_rule_22" {
+#   security_group_id = aws_security_group.http_server_security_group.id
+
+#   cidr_ipv4   = "0.0.0.0/0"
+#   from_port   = 22
+#   ip_protocol = "tcp"
+#   to_port     = 22
+# }
+
+# resource "aws_vpc_security_group_egress_rule" "http_server_security_group_egress_rule" {
+#   security_group_id = aws_security_group.http_server_security_group.id
+
+#   cidr_ipv4   = "0.0.0.0/0"
+#   from_port   = 0
+#   ip_protocol = -1
+#   to_port     = 0
+# }
