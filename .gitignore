@@ -6,3 +6,6 @@ kubeconfig
 *.tfstate.backup
 .terraform
 dev.tfvars
+
+# apple
+.DS_Store
